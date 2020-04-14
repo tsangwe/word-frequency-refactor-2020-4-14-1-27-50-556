@@ -10,7 +10,6 @@ public class WordFrequencyGame {
 
     private static final String SPACE_PATTERN = "\\s+";
     private static final String DEFAULT_DELIMITER = "\n";
-    private static final String CALCULATE_ERROR_MESSAGE = "Calculate Error";
 
     public String getResult(String inputString) {
         Map<String, Long> frequencyMap = Stream.of(inputString.split(SPACE_PATTERN))
