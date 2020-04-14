@@ -6,19 +6,19 @@ public class WordFrequencyGame {
     private static final String DEFAULT_DELIMITER = "\n";
     private static final String CALCULATE_ERROR_MESSAGE = "Calculate Error";
 
-    public String getResult(String inputStr) {
+    public String getResult(String inputString) {
         try {
             //split the input string with 1 to n pieces of spaces
-            String[] arr = inputStr.split(SPACE_PATTERN);
+            String[] words = inputString.split(SPACE_PATTERN);
 
             List<Input> inputList = new ArrayList<>();
-            for (String s : arr) {
-                Input input = new Input(s, 1);
+            for (String word : words) {
+                Input input = new Input(word, 1);
                 inputList.add(input);
             }
 
             //get the map for the next step of sizing the same word
-            Map<String, List<Input>> map = getListMap(inputList);
+            Map<String, List<Input>> map = convertToMap(inputList);
 
             List<Input> list = new ArrayList<>();
             for (Map.Entry<String, List<Input>> entry : map.entrySet()) {
@@ -27,12 +27,12 @@ public class WordFrequencyGame {
             }
             inputList = list;
 
-            inputList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
+            inputList.sort((firstInput, secondInput) -> secondInput.getWordCount() - firstInput.getWordCount());
 
             StringJoiner joiner = new StringJoiner(DEFAULT_DELIMITER);
-            for (Input w : inputList) {
-                String s = w.getValue() + " " + w.getWordCount();
-                joiner.add(s);
+            for (Input input : inputList) {
+                String formattedString = input.getWord() + " " + input.getWordCount();
+                joiner.add(formattedString);
             }
             return joiner.toString();
         } catch (Exception exception) {
@@ -40,15 +40,15 @@ public class WordFrequencyGame {
         }
     }
 
-    private Map<String, List<Input>> getListMap(List<Input> inputList) {
+    private Map<String, List<Input>> convertToMap(List<Input> inputList) {
         Map<String, List<Input>> map = new HashMap<>();
         for (Input input : inputList) {
-            if (!map.containsKey(input.getValue())) {
+            if (!map.containsKey(input.getWord())) {
                 ArrayList arr = new ArrayList<>();
                 arr.add(input);
-                map.put(input.getValue(), arr);
+                map.put(input.getWord(), arr);
             } else {
-                map.get(input.getValue()).add(input);
+                map.get(input.getWord()).add(input);
             }
         }
         return map;
